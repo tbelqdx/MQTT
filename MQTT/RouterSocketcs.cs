@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using NetMQ;
 using NetMQ.Sockets;
 
-namespace Madam.App.Cloud.MQTT
+namespace MQTT
 {
     public class RouterSocket
     {

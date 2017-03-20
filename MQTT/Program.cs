@@ -1,48 +1,35 @@
-﻿using NetMQ;
-using NetMQ.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using MQTT;
 
-namespace MQTT
+namespace Program
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task MainAsync(string[] args)
         {
+            await StartListeningMQTT();
 
 
-            using (NetMQContext context = NetMQContext.Create())
+        }
+
+        private static async Task StartListeningMQTT()
+        {
+            Subscriber subscriber = new Subscriber();
+            Intermediary intermediary = new Intermediary();
+            RouterSocket router = new RouterSocket();
+            router.ReceiveMessage();
+
+            Task.Run(() =>
             {
-                using (var publisherSocket = context.CreateXPublisherSocket())
-                {
-                    publisherSocket.SetWelcomeMessage("WM");
-                    publisherSocket.Bind("tcp://*:6669");
-
-                    // we just drop subscriptions                     
-                    publisherSocket.ReceiveReady += (sender, eventArgs) =>
-                      publisherSocket.SkipMultipartMessage();
-
-                    NetMQPoller poller = new NetMQPoller();
-                    poller.Add(publisherSocket);
-
-                    // send a message every second
-                    
-                    sendMessageTimer.Elapsed += (sender, eventArgs) =>
-                      publisherSocket.
-                        SendMoreFrame("A").
-                        SendFrame(new Random().Next().ToString());
-
-                    // send heartbeat every two seconds
-                    ;
-                    heartbeatTimer.Elapsed +=
-                      (sender, eventArgs) => publisherSocket.SendFrame("HB");
-
-                    poller.PollTillCancelled();
-                }
-            }
+                intermediary.StartIntermediary();
+            });
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            Task.Run(() =>
+            {
+                //subscriber.SubscribeTopic("TOPICA");
+                subscriber.SubscribeTopic("Box");
+            });
         }
     }
 }

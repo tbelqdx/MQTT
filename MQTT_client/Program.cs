@@ -1,52 +1,31 @@
-﻿using NetMQ;
-using NetMQ.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MQTT;
 using System.Threading.Tasks;
 
 namespace MQTT_client
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task MainAsync(string[] args)
         {
+            await StartMQTT();
 
 
-                Random rand = new Random(50);
+        }
 
-                const string xsubAddress = "tcp://127.0.0.1:5678";
+        private static async Task StartMQTT()
+        {
+            Publisher publisher = new Publisher();
+            int i = 0;
 
+            while (i < 10000)
+            {
 
-                using (var context = NetMQContext.Create())
-                {
-                    using (var pubSocket = context.CreatePublisherSocket())
-                    {
-                        Console.WriteLine("Publisher socket binding...");
-                        pubSocket.Options.SendHighWatermark = 1000;
-                        pubSocket.Connect(xsubAddress);
+                publisher.SendSingleFrame("TopicA", "MQTT test:  " + i);
 
-
-
-                        while (true)
-                        {
-                            var randomizedTopic = rand.NextDouble();
-                            if (randomizedTopic > 0.5)
-                            {
-                                var msg = "TopicA msg-" + randomizedTopic;
-                                Console.WriteLine("Sending message : {0}", msg);
-                                pubSocket.SendMore("TopicA").Send(msg);
-                            }
-                            else
-                            {
-                                var msg = "TopicB msg-" + randomizedTopic;
-                                Console.WriteLine("Sending message : {0}", msg);
-                                pubSocket.SendMore("TopicB").Send(msg);
-                            }
-                        }
-                    }
-                }
-
+                i++;
             }
         }
+    }
+
+
+}

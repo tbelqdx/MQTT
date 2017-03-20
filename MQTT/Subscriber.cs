@@ -7,17 +7,13 @@ using NetMQ;
 using NetMQ.Sockets;
 
 
-namespace Madam.App.Cloud.MQTT
+namespace MQTT
 {
     class Subscriber
     {
 
         private SubscriberSocket SubSocket { get; }
-
         
-
-        
-
 
         public Subscriber()
         {
@@ -50,8 +46,6 @@ namespace Madam.App.Cloud.MQTT
         {
             SubSocket.Dispose();
         }
-
-     
-
+        
     }
 }

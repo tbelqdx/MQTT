@@ -8,7 +8,7 @@ using NetMQ.Sockets;
 
 
 
-namespace Madam.Common.Box.MQTT
+namespace MQTT
 {
     public class Publisher : IDisposable
     {
@@ -34,10 +34,10 @@ namespace Madam.Common.Box.MQTT
         {
 
             NetMQMessage message = new NetMQMessage();
-            byte[] data = ToBinary(obj);
+            
             message.Append(topic);
             message.Append(method);
-            message.Append(data);
+            message.Append(obj);
             return message;
         }
 
@@ -45,7 +45,7 @@ namespace Madam.Common.Box.MQTT
         {
             //on va mettre en premiere frame le topic, le reste sera les infos necessaires
             NetMQMessage message = new NetMQMessage();
-            byte[] data = ToBinary(obj);
+            
             message.Append(topic);
             message.Append(data);
             return message;
@@ -62,7 +62,7 @@ namespace Madam.Common.Box.MQTT
 
         public NetMQMessage AddObjectToMessage(NetMQMessage msg, Object obj)
         {
-            byte[] data = ToBinary(obj);
+            
             msg.Append(data);
             return msg;
         }

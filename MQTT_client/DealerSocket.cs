@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NetMQ;
 using NetMQ.Sockets;
 
-namespace Madam.Common.Box.MQTT
+namespace MQTT
 {
     class DealerSockets
     {

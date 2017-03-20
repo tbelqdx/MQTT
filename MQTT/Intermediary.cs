@@ -2,7 +2,7 @@
 using NetMQ;
 using NetMQ.Sockets;
 
-namespace Madam.App.Cloud.MQTT
+namespace MQTT
 {
     public class Intermediary
     {
