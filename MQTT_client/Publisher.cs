@@ -30,24 +30,24 @@ namespace MQTT
 
         }
 
-        public NetMQMessage CreateMqMessage(string topic, string method, object obj)
+        public NetMQMessage CreateMqMessage(string topic, string method, string msg)
         {
 
             NetMQMessage message = new NetMQMessage();
             
             message.Append(topic);
             message.Append(method);
-            message.Append(obj);
+            message.Append(msg);
             return message;
         }
 
-        public NetMQMessage PrepareSingleObject(string topic, object obj)
+        public NetMQMessage PrepareSingleMsg(string topic, string msg)
         {
             //on va mettre en premiere frame le topic, le reste sera les infos necessaires
             NetMQMessage message = new NetMQMessage();
             
             message.Append(topic);
-            message.Append(data);
+            message.Append(msg);
             return message;
 
         }
@@ -60,10 +60,10 @@ namespace MQTT
         }
 
 
-        public NetMQMessage AddObjectToMessage(NetMQMessage msg, Object obj)
+        public NetMQMessage AddOStringToMessage(NetMQMessage msg, String text)
         {
             
-            msg.Append(data);
+            msg.Append(text);
             return msg;
         }
 

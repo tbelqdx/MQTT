@@ -5,14 +5,15 @@ namespace MQTT_client
 {
     class Program
     {
-        static async Task MainAsync(string[] args)
+        static  void Main(string[] args)
         {
-            await StartMQTT();
+            bool result = StartMQTT().Result;
+            
 
 
         }
 
-        private static async Task StartMQTT()
+        public static async Task<bool> StartMQTT()
         {
             Publisher publisher = new Publisher();
             int i = 0;
@@ -24,6 +25,7 @@ namespace MQTT_client
 
                 i++;
             }
+            return (true);
         }
     }
 
