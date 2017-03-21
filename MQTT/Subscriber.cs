@@ -42,6 +42,17 @@ namespace MQTT
 
         }
 
+        public  Task Listen()
+        {
+            while (true)
+            {
+                string messageTopicReceived = SubSocket.ReceiveFrameString();
+                string messageReceived = SubSocket.ReceiveFrameString();
+                Console.WriteLine(messageReceived);
+            }
+
+        }
+
         public void Dispose()
         {
             SubSocket.Dispose();

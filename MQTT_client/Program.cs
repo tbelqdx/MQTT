@@ -1,4 +1,5 @@
 ﻿using MQTT;
+using System;
 using System.Threading.Tasks;
 
 namespace MQTT_client
@@ -22,6 +23,8 @@ namespace MQTT_client
             {
 
                 publisher.SendSingleFrame("TopicA", "MQTT test:  " + i);
+                Console.WriteLine("TopicA"+ "MQTT test:  " + i);
+                await Task.Delay(1);
 
                 i++;
             }

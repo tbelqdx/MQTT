@@ -8,18 +8,14 @@ namespace Program
     {
         static void Main(string[] args)
         {
-           bool result=StartListeningMQTT().Result;
 
-
+           StartListeningMQTT().Wait();
         }
 
-        private static async Task<bool> StartListeningMQTT()
+        private static async Task StartListeningMQTT()
         {
             Subscriber subscriber = new Subscriber();
             Intermediary intermediary = new Intermediary();
-            RouterSocket router = new RouterSocket();
-            router.ReceiveMessage();
-
             Task.Run(() =>
             {
                 intermediary.StartIntermediary();
@@ -27,10 +23,12 @@ namespace Program
             await Task.Delay(TimeSpan.FromSeconds(1));
             Task.Run(() =>
             {
-                subscriber.SubscribeTopic("TOPICA");
-                
+                subscriber.SubscribeTopic("TopicA");
             });
-            return true;
+            Task.Run(() =>
+            {
+                subscriber.Listen();
+            });
         }
     }
 }
