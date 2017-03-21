@@ -8,18 +8,23 @@ namespace MQTT
     {
         public void StartIntermediary()
         {
-            using (var xpubSocket = new XPublisherSocket("@tcp://localhost:1234"))
-            using (var xsubSocket = new XSubscriberSocket("@tcp://localhost:5678"))
-            {
-                Console.WriteLine("Intermediary started, and waiting for messages");
+            
+                using (var xpubSocket = new XPublisherSocket("@tcp://localhost:1234"))
+                using (var xsubSocket = new XSubscriberSocket("@tcp://localhost:5678"))
+                {
+                    Console.WriteLine("Intermediary started, and waiting for messages");
 
-                // proxy messages between frontend / backend
-                var proxy = new Proxy(xsubSocket, xpubSocket);
+                    // proxy messages between frontend / backend
+                    var proxy = new Proxy(xsubSocket, xpubSocket);
 
-               
-                // blocks indefinitely
-                proxy.Start();
-            }
+
+                    // blocks indefinitely
+                    proxy.Start();
+
+                }
+            
+
         }
     }
 }
+

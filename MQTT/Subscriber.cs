@@ -17,8 +17,13 @@ namespace MQTT
 
         public Subscriber()
         {
+            try { 
             SubSocket = new SubscriberSocket(">tcp://localhost:1234");
-           
+            }
+            catch(Exception ex)
+            {
+
+            }
 
         }
         IEnumerable<Type> GetSubclasses(Type type)
@@ -28,27 +33,43 @@ namespace MQTT
 
         public Task SubscribeTopic(string topic)
         {
-
-            SubSocket.Options.ReceiveHighWatermark = 1000;
-            SubSocket.Subscribe(topic);
-            Console.WriteLine("Subscriber socket connecting...");
-           
-            while (true)
+            try
             {
-                NetMQMessage messagereceived = SubSocket.ReceiveMultipartMessage();
+                SubSocket.Options.ReceiveHighWatermark = 1000;
+                SubSocket.Subscribe(topic);
+                Console.WriteLine("Subscriber socket connecting...");
 
-                Console.WriteLine("MQTT", "TOPIC:" + messagereceived);
+                while (true)
+                {
+                    NetMQMessage messagereceived = SubSocket.ReceiveMultipartMessage();
+
+                    Console.WriteLine("MQTT" + "TOPIC:" + messagereceived);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("erreur");
+                return Task.Delay(1);
             }
 
         }
 
         public  Task Listen()
         {
-            while (true)
+            try
             {
-                string messageTopicReceived = SubSocket.ReceiveFrameString();
-                string messageReceived = SubSocket.ReceiveFrameString();
-                Console.WriteLine(messageReceived);
+                while (true)
+                {
+                    string messageTopicReceived = SubSocket.ReceiveFrameString();
+                    string messageReceived = SubSocket.ReceiveFrameString();
+                    Console.WriteLine(messageReceived);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("erreur");
+                return Task.Delay(1);
+
             }
 
         }

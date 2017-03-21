@@ -8,27 +8,30 @@ namespace Program
     {
         static void Main(string[] args)
         {
+            Console.Title = "NetMQ Server";
 
-           StartListeningMQTT().Wait();
+            StartListeningMQTT().Wait();
         }
 
         private static async Task StartListeningMQTT()
         {
             Subscriber subscriber = new Subscriber();
             Intermediary intermediary = new Intermediary();
-            Task.Run(() =>
+
+            Parallel.Invoke(
+            () =>
+          
             {
                 intermediary.StartIntermediary();
-            });
-            await Task.Delay(TimeSpan.FromSeconds(1));
-            Task.Run(() =>
+                
+            },
+
+            () =>             
             {
                 subscriber.SubscribeTopic("TopicA");
-            });
-            Task.Run(() =>
-            {
                 subscriber.Listen();
             });
+           
         }
     }
 }

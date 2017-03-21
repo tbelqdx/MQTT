@@ -8,6 +8,7 @@ namespace MQTT_client
     {
         static  void Main(string[] args)
         {
+            Task.Delay(15);
             bool result = StartMQTT().Result;
             
 
@@ -18,13 +19,13 @@ namespace MQTT_client
         {
             Publisher publisher = new Publisher();
             int i = 0;
-
+           
             while (i < 10000)
             {
 
                 publisher.SendSingleFrame("TopicA", "MQTT test:  " + i);
                 Console.WriteLine("TopicA"+ "MQTT test:  " + i);
-                await Task.Delay(1);
+                
 
                 i++;
             }
